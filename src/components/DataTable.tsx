@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "./ui/calendar"
+import { id } from "date-fns/locale"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -20,7 +21,9 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedValues, setSelectedValues] = useState<string>("")
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date[] | undefined>()
+
+  console.log(date)
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues("")
@@ -76,7 +79,6 @@ export function DataTable<TData, TValue>({
   }
 
   const BottomTableComponent = () => {
-  
     return (
       <div className="flex items-center justify-between">
         <p>Total Data {table.getFilteredRowModel().rows.length}</p>
@@ -114,16 +116,18 @@ export function DataTable<TData, TValue>({
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {date ? (date.map((d) => format(d, "PPP")).join(", ")) : (<span>Pick a date</span>)}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-auto p-0" align="start">
               <Calendar
-                mode="single"
+                mode="multiple"
+                min={1}
                 selected={date}
                 onSelect={setDate}
                 initialFocus
                 className="max-w-sm placeholder:capitalize"
+                locale={id}
               />
             </PopoverContent>
           </Popover>
@@ -133,9 +137,7 @@ export function DataTable<TData, TValue>({
   const RenderInputComponent = () => {
     if (selectedValues === 'datetime') {
       return (
-        <div className="flex items-center">
-          <DateComponent/>
-          <p className="px-5">to</p>
+        <div className="px-5">
           <DateComponent/>
         </div>
       )
@@ -157,6 +159,7 @@ export function DataTable<TData, TValue>({
         <label>
         Filter:
         <select value={selectedValues} onChange={handleSelectChange}>
+          <option value="" disabled hidden>Choose Filter</option>
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
           ))}

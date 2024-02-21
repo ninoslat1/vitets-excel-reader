@@ -1,5 +1,4 @@
 export const filterOptions:{id: number, label: string, value: string}[] = [
-    { id:0, label: "Pilih Filter", value: ""},
     { id:1, label: "Date and Time", value: "datetime"},
     { id:2, label: "Site", value: "site"},
     { id:3, label: "Controller", value: "controller" },
