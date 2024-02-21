@@ -32,12 +32,34 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
         file.type !== 'text/csv' &&
         file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       ) {
-        alert('Only Excel/CSV files are supported.');
-        return;
+        alert('Only Excel/CSV files are supported.')
+        return
       }
 
     handleFileUpload(file)
   };
+
+  const handleOpenFileDialog = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xls,.xlsx,.csv';
+    input.onchange = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const file = target.files?.[0];
+      if (file) {
+        if (
+          file.type !== 'application/vnd.ms-excel' &&
+          file.type !== 'text/csv' &&
+          file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ) {
+          alert('Only Excel/CSV files are supported.')
+          return
+        }
+        handleFileUpload(file)
+      }
+    };
+    input.click();
+  }
 
   return (
     <div
@@ -48,7 +70,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
       onDrop={handleDrop}
     >
       <div className="drag-and-drop-content">
-        <p>Drag and drop file here</p>
+        <p>Drag and drop or <span onClick={handleOpenFileDialog} className='underline cursor-pointer hover:text-sky-500 duration-300'>upload</span> file here</p>
         <p>Only Excel/CSV files are supported</p>
       </div>
     </div>

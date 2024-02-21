@@ -6,14 +6,13 @@ export const columns: ColumnDef<TTransaction>[] = [
         accessorKey: "datetime",
         header: "Date & Time",
         cell: ({ row }) => {
-          const datetime = new Date((parseFloat(row.getValue("datetime")) - 25569) * 86400 * 1000);
-          const formattedDatetime = datetime.toLocaleString();
-          return formattedDatetime
+          const datetime = new Date((parseFloat(row.getValue("datetime")) - 25569) * 86400 * 1000).toLocaleString();
+          return datetime
         },
     },
     {
         accessorKey: "site",
-        header: "Site"
+        header: "Site",
     },
     {
         accessorKey: 'controller',
