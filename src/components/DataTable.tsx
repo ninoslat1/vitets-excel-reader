@@ -23,8 +23,6 @@ export function DataTable<TData, TValue>({
   const [selectedValues, setSelectedValues] = useState<string>("")
   const [date, setDate] = useState<Date[] | undefined>()
 
-  console.log(date)
-
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues("")
     const selectedOption = event.target.value;
@@ -158,7 +156,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <label>
         Filter:
-        <select value={selectedValues} onChange={handleSelectChange}>
+        <select value={selectedValues} onChange={handleSelectChange} className="px-5">
           <option value="" disabled hidden>Choose Filter</option>
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
@@ -194,6 +192,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="odd:bg-slate-100"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
