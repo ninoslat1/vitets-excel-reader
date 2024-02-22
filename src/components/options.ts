@@ -1,5 +1,5 @@
 export const filterOptions:{id: number, label: string, value: string}[] = [
-    { id:1, label: "Date and Time", value: "datetime"},
+    { id:1, label: "DateTime", value: "datetime"},
     { id:2, label: "Site", value: "site"},
     { id:3, label: "Controller", value: "controller" },
     { id:4, label: "Card No", value: "cardno"},

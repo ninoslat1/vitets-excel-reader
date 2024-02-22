@@ -16,24 +16,44 @@ function App() {
       const workbook = read(data, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-      const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
-
+      const jsonData: string[][] = utils.sheet_to_json(worksheet, { header: 1 });
+  
       // Mapping data to TTransaction format
-      const mappedData: TTransaction[] = jsonData.slice(1).map((row: any) => ({
-        datetime: row[0],
-        site: row[1],
-        controller: row[2],
-        cardno: row[3],
-        staffno: row[4],
-        name: row[5],
-        status: row[6],
-        company: row[7],
-        vehicleno: row[8],
-      }));
-
+      const mappedData: TTransaction[] = [];
+      let previousCardNo: string | undefined;
+      let previousController: string | undefined;
+  
+      for (let i = 1; i < jsonData.length; i++) {
+        const row = jsonData[i];
+        const cardNo = row[3];
+        const controller = row[2];
+  
+        if (cardNo !== previousCardNo || controller !== previousController) {
+          const status: "Valid Entry Access" | "Valid Exit Access" =
+            row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
+              ? row[6]
+              : "Valid Entry Access"; // Set a default value if the row value is not one of the allowed options
+  
+          mappedData.push({
+            datetime: row[0],
+            site: row[1],
+            controller: controller,
+            cardno: cardNo,
+            staffno: row[4],
+            name: row[5],
+            status,
+            company: row[7],
+            vehicleno: row[8],
+          });
+  
+          previousCardNo = cardNo;
+          previousController = controller;
+        }
+      }
+  
       setTableData(mappedData);
     };
-
+  
     reader.readAsArrayBuffer(file);
   };
 

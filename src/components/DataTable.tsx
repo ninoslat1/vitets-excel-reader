@@ -137,6 +137,12 @@ export function DataTable<TData, TValue>({
       return (
         <div className="px-5">
           <DateComponent/>
+          <Input
+          placeholder={`Filter ${selectedValues}`}
+          className="max-w-sm placeholder:capitalize"
+          value={(table.getColumn(selectedValues.toString())?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn(selectedValues.toString())?.setFilterValue(event.target.value)}
+        />
         </div>
       )
     } else {
@@ -163,7 +169,12 @@ export function DataTable<TData, TValue>({
           ))}
         </select>
       </label>
-        {RenderInputComponent()}
+      <Input
+          placeholder={`Filter ${selectedValues}`}
+          className="max-w-sm placeholder:capitalize"
+          value={(table.getColumn(selectedValues.toString())?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn(selectedValues.toString())?.setFilterValue(event.target.value)}
+        />
         <DropDownComponent/>
       </div>
       <div className="rounded-md border">

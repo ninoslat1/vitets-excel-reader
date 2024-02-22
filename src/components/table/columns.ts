@@ -4,10 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: "datetime",
-        header: "Date & Time",
+        header: "DateTime",
         cell: ({ row }) => {
-          const datetime = new Date((parseFloat(row.getValue("datetime")) - 25569) * 86400 * 1000).toLocaleString();
-          return datetime
+          return new Date((parseFloat(row.getValue("datetime")) - 25569) * 86400 * 1000).toLocaleDateString().toString();
         },
     },
     {
