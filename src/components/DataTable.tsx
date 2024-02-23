@@ -6,12 +6,6 @@ import { useState } from "react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuContent } from "./ui/dropdown-menu"
 import { Input } from "./ui/input"
 import { filterOptions } from "./options"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { Calendar } from "./ui/calendar"
-import { id } from "date-fns/locale"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -21,7 +15,6 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedValues, setSelectedValues] = useState<string>("")
-  const [date, setDate] = useState<Date[] | undefined>()
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues("")
@@ -47,7 +40,7 @@ export function DataTable<TData, TValue>({
     return (
       <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button className="ml-auto hover:bg-white hover:text-slate-900 duration-300">
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -79,21 +72,21 @@ export function DataTable<TData, TValue>({
   const BottomTableComponent = () => {
     return (
       <div className="flex items-center justify-between">
-        <p>Total Data {table.getFilteredRowModel().rows.length}</p>
+        <p><b>Total Data</b> : {table.getFilteredRowModel().rows.length}</p>
         <div className="space-x-2 py-4">
           <Button
-            variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="bg-slate-900 text-white"
           >
             Previous
           </Button>
           <Button
-            variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="bg-slate-900 text-white"
           >
             Next
           </Button>
@@ -102,69 +95,13 @@ export function DataTable<TData, TValue>({
     );
   }
 
-  const DateComponent = () => {
-    return (
-      <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-[280px] justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? (date.map((d) => format(d, "PPP")).join(", ")) : (<span>Pick a date</span>)}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="multiple"
-                min={1}
-                selected={date}
-                onSelect={setDate}
-                initialFocus
-                className="max-w-sm placeholder:capitalize"
-                locale={id}
-              />
-            </PopoverContent>
-          </Popover>
-    )
-  }
-
-  const RenderInputComponent = () => {
-    if (selectedValues === 'datetime') {
-      return (
-        <div className="px-5">
-          <DateComponent/>
-          <Input
-          placeholder={`Filter ${selectedValues}`}
-          className="max-w-sm placeholder:capitalize"
-          value={(table.getColumn(selectedValues.toString())?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(selectedValues.toString())?.setFilterValue(event.target.value)}
-        />
-        </div>
-      )
-    } else {
-      return (
-        <Input
-          placeholder={`Filter ${selectedValues}`}
-          className="max-w-sm placeholder:capitalize"
-          value={(table.getColumn(selectedValues.toString())?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(selectedValues.toString())?.setFilterValue(event.target.value)}
-        />
-      );
-    }
-  };
-
   return (
     <div>
       <div className="flex items-center py-4">
         <label>
         Filter:
-        <select value={selectedValues} onChange={handleSelectChange} className="px-5">
+        <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5">
         <optgroup label="Filter List">
-        <option value="">--Please choose an option--</option>
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
           ))}
@@ -181,7 +118,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-slate-900 text-white">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -205,7 +142,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="odd:bg-slate-100"
+                  className="odd:bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
