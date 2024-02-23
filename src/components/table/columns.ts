@@ -5,9 +5,6 @@ export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: "datetime",
         header: "DateTime",
-        cell: ({ row }) => {
-          return new Date((parseFloat(row.getValue("datetime")) - 25569) * 86400 * 1000).toLocaleDateString().toString();
-        },
     },
     {
         accessorKey: "site",

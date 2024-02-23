@@ -27,24 +27,26 @@ function App() {
         const row = jsonData[i];
         const cardNo = row[3];
         const controller = row[2];
-  
-        if (cardNo !== previousCardNo || controller !== previousController) {
-          const status: "Valid Entry Access" | "Valid Exit Access" =
-            row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
-              ? row[6]
-              : "Valid Entry Access"; // Set a default value if the row value is not one of the allowed options
-  
-          mappedData.push({
-            datetime: row[0],
-            site: row[1],
-            controller: controller,
-            cardno: cardNo,
-            staffno: row[4],
-            name: row[5],
-            status,
-            company: row[7],
-            vehicleno: row[8],
-          });
+        
+        if (cardNo !== previousCardNo) {
+          if (controller !== previousController) {
+            const status: "Valid Entry Access" | "Valid Exit Access" =
+              row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
+                ? row[6]
+                : "Valid Entry Access"; // Set a default value if the row value is not one of the allowed options
+    
+            mappedData.push({
+              datetime: row[0].toString(),
+              site: row[1],
+              controller,
+              cardno: cardNo,
+              staffno: row[4],
+              name: row[5],
+              status,
+              company: row[7],
+              vehicleno: row[8],
+            });
+          }
   
           previousCardNo = cardNo;
           previousController = controller;
