@@ -163,10 +163,12 @@ export function DataTable<TData, TValue>({
         <label>
         Filter:
         <select value={selectedValues} onChange={handleSelectChange} className="px-5">
-          <option value="" disabled hidden>Choose Filter</option>
+        <optgroup label="Filter List">
+        <option value="">--Please choose an option--</option>
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
           ))}
+          </optgroup>
         </select>
       </label>
       <Input

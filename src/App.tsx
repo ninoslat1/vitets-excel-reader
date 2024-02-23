@@ -10,6 +10,8 @@ function App() {
   const [tableData, setTableData] = useState<TTransaction[]>([]);
 
   const handleFileUpload = (file: File) => {
+    alert("Sedang upload");
+  
     const reader = new FileReader();
     reader.onload = (e) => {
       const data = new Uint8Array(e.target?.result as ArrayBuffer);
@@ -27,14 +29,24 @@ function App() {
         const row = jsonData[i];
         const cardNo = row[3];
         const controller = row[2];
-        
-        if (cardNo !== previousCardNo) {
-          if (controller !== previousController) {
-            const status: "Valid Entry Access" | "Valid Exit Access" =
-              row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
-                ? row[6]
-                : "Valid Entry Access"; // Set a default value if the row value is not one of the allowed options
-    
+        const status: "Valid Entry Access" | "Valid Exit Access" =
+          row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
+            ? row[6]
+            : "Valid Entry Access"
+      
+        if(cardNo !== previousCardNo){
+          mappedData.push({
+            datetime: row[0].toString(),
+            site: row[1],
+            controller,
+            cardno: cardNo,
+            staffno: row[4],
+            name: row[5],
+            status,
+            company: row[7],
+            vehicleno: row[8],
+          })
+        } else if(cardNo === previousCardNo && controller !== previousController) {
             mappedData.push({
               datetime: row[0].toString(),
               site: row[1],
@@ -45,15 +57,17 @@ function App() {
               status,
               company: row[7],
               vehicleno: row[8],
-            });
-          }
-  
-          previousCardNo = cardNo;
-          previousController = controller;
+            })
+        } else {
+          
         }
+
+        previousCardNo = cardNo;
+        previousController = controller;
       }
   
       setTableData(mappedData);
+      alert("Proses upload selesai");
     };
   
     reader.readAsArrayBuffer(file);
