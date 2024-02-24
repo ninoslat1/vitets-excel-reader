@@ -34,8 +34,10 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       columnFilters
     }
-  })
+  });
 
+
+  
   const DropDownComponent = () => {
     return (
       <DropdownMenu>
@@ -73,6 +75,7 @@ export function DataTable<TData, TValue>({
     return (
       <div className="flex items-center justify-between">
         <p><b>Total Data</b> : {table.getFilteredRowModel().rows.length}</p>
+        
         <div className="space-x-2 py-4">
           <Button
             size="sm"
@@ -145,7 +148,7 @@ export function DataTable<TData, TValue>({
                   className="odd:bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500" : ""}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

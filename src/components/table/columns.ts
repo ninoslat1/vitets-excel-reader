@@ -1,6 +1,7 @@
 import { TTransaction } from "@/type";
 import { ColumnDef } from "@tanstack/react-table";
 
+
 export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: "datetime",
@@ -29,6 +30,9 @@ export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: 'status',
         header: 'Transaction',
+        meta: {
+            
+        }
     },
     {
         accessorKey: 'company',

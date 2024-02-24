@@ -4,6 +4,8 @@ import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, 
 import { handleDragEnter, handleDragLeave, handleDragOver } from '@/utils/DragAndDrop';
 import { Button } from './ui/button';
 import { FileIcon } from '@radix-ui/react-icons'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
@@ -26,7 +28,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
       setTimeout(() => {
         dropZoneRef.current?.classList.remove('bg-red-500')
       }, 1000)
-      alert('Only Excel/CSV files are supported.')
+      toast.error('Only Excel/CSV files are supported.')
       return
     }
 
@@ -51,7 +53,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
           setTimeout(() => {
             dropZoneRef.current?.classList.remove('bg-red-500')
           }, 1000)
-          alert('Only Excel/CSV files are supported.')
+          toast.error('Only Excel/CSV files are supported.')
           return
         }
         handleFileUpload(file)

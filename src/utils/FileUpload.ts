@@ -1,8 +1,10 @@
-import { TTransaction } from "@/type";
-import { read, utils } from "xlsx";
+import { TTransaction } from "@/type"
+import { read, utils } from "xlsx"
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]) => void) => {
-    alert("Sedang upload");
+    toast.info('Sedang upload')
   
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -24,7 +26,7 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
         const status: "Valid Entry Access" | "Valid Exit Access" =
           row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
             ? row[6]
-            : "Valid Entry Access";
+            : "Valid Entry Access"
   
         if (cardNo !== previousCardNo) {
           mappedData.push({
@@ -51,7 +53,7 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
             vehicleno: row[8],
           });
         } else {
-          // ... handle other cases as needed ...
+          
         }
   
         previousCardNo = cardNo;
@@ -59,7 +61,7 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
       }
   
       setTableData(mappedData);
-      alert("Proses upload selesai");
+      toast.info('Proses upload selesai')
     };
   
     reader.readAsArrayBuffer(file);

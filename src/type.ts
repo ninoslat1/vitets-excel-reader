@@ -14,9 +14,3 @@ export type TAlert = {
     title: string
     message: string
 }
-
-export type TCustomSelectProps = {
-    value: string;
-    onChange: (value: string) => void;
-}
-
