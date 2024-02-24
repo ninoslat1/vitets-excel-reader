@@ -35,8 +35,6 @@ export function DataTable<TData, TValue>({
       columnFilters
     }
   });
-
-
   
   const DropDownComponent = () => {
     return (
@@ -75,7 +73,8 @@ export function DataTable<TData, TValue>({
     return (
       <div className="flex items-center justify-between">
         <p><b>Total Data</b> : {table.getFilteredRowModel().rows.length}</p>
-        
+        <p><b>Total Entry</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
+        <p><b>Total Exit</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p>
         <div className="space-x-2 py-4">
           <Button
             size="sm"
@@ -105,6 +104,7 @@ export function DataTable<TData, TValue>({
         Filter:
         <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5">
         <optgroup label="Filter List">
+          <option value={''}>--Pilih Filter--</option>
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
           ))}
@@ -148,7 +148,7 @@ export function DataTable<TData, TValue>({
                   className="odd:bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500" : ""}>
+                    <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500 font-bold text-center" : ""}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

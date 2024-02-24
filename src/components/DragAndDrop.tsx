@@ -66,7 +66,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
     <div>
       <Sheet>
         <SheetTrigger asChild>
-          <Button className='my-2 hover:bg-white hover:text-slate-900 duration-300'>Upload File</Button>
+          <Button className='my-2 hover:bg-white hover:text-slate-900 duration-300 gap-2'>Upload File <FileIcon className='w-4 h-4'/></Button>
         </SheetTrigger>
         <SheetContent className='bg-white'>
           <SheetHeader>
