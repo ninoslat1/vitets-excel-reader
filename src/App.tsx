@@ -9,10 +9,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [tableData, setTableData] = useState<TTransaction[]>([]);
+  const [tableData, setTableData] = useState<TTransaction[]>([])
 
   const handleUpload = (file: File) => {
-    handleFileUpload(file, setTableData); // Call the imported function and pass the file and setTableData
+    handleFileUpload(file, setTableData)
   };
 
   return (
@@ -24,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

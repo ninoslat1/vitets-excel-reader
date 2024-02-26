@@ -1,11 +1,11 @@
 import { ColumnFiltersState, VisibilityState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
 import { DataTableProps } from "@/interface"
-import { Button } from "./ui/button"
 import { useState } from "react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuContent } from "./ui/dropdown-menu"
-import { Input } from "./ui/input"
 import { filterOptions } from "./options"
+import { Button } from "./ui/button"
+import { Input } from "./ui/input"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <label>
         Filter:
-        <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5">
+        <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
         <optgroup label="Filter List">
           <option value={''}>--Pilih Filter--</option>
           {filterOptions.map((option) => (

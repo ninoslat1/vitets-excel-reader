@@ -1,8 +1,8 @@
 import { IHandleFileUpload } from '@/interface'
 import { useRef, useState } from 'react'
-import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet';
-import { handleDragEnter, handleDragLeave, handleDragOver } from '@/utils/DragAndDrop';
-import { Button } from './ui/button';
+import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet'
+import { handleDragEnter, handleDragLeave, handleDragOver } from '@/utils/DragAndDrop'
+import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -10,13 +10,12 @@ import 'react-toastify/dist/ReactToastify.css'
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const dropZoneRef = useRef<HTMLDivElement>(null)
-  
-  
+   
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+    const file = e.dataTransfer.files[0]
 
     if (
       file.type !== 'application/vnd.ms-excel' &&
@@ -32,16 +31,16 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
       return
     }
 
-    handleFileUpload(file);
+    handleFileUpload(file)
   }
 
   const handleOpenFileDialog = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.xls,.xlsx,.csv';
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.xls,.xlsx,.csv'
     input.onchange = (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      const file = target.files?.[0];
+      const target = event.target as HTMLInputElement
+      const file = target.files?.[0]
       if (file) {
         if (
           file.type !== 'application/vnd.ms-excel' &&
@@ -58,8 +57,8 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
         }
         handleFileUpload(file)
       }
-    };
-    input.click();
+    }
+    input.click()
   }
 
   return (
@@ -94,5 +93,5 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
       </Sheet>
     </div>
    
-  );
+  )
 }
