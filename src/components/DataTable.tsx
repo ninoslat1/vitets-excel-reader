@@ -24,16 +24,8 @@ export function DataTable<TData, TValue>({
     const selectedOption = event.target.value;
     setSelectedValues(selectedOption);
   }
-
-  const handleXLSImport = () => {
-    const datas = data?.length ? table.getFilteredRowModel().rows.map(row => row.original) : []
-    const ws = utils.json_to_sheet(datas)
-    const wb = utils.book_new()
-    utils.book_append_sheet(wb, ws, `Sheet1`)
-    writeFile(wb, `${table.getColumn(selectedValues.toString().replace(/\//g, "-"))?.getFilterValue() as string} Report.xlsx`)
-    console.log(`${table.getColumn(selectedValues.toString())?.getFilterValue() as string}-Sheet`)
-  }
-
+  
+  
   const table = useReactTable({
     data,
     columns,
@@ -46,7 +38,20 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       columnFilters
     }
-  });
+  })
+
+  const dataTransaction = table.getFilteredRowModel().rows
+
+  const handleXLSImport = () => {
+    const datas = data?.length ? dataTransaction.map(row => row.original) : []
+    const ws = utils.json_to_sheet(datas)
+    const wb = utils.book_new()
+    const statusFilterValue = table.getColumn("status")?.getFilterValue() as string;
+    const dateFilterValue = table.getColumn("datetime")?.getFilterValue() as string;
+    const sheetName = `${statusFilterValue.replace(/\//g, "-")}-${dateFilterValue.replace(/\//g, "-")}-Sheet`;
+    utils.book_append_sheet(wb, ws, `${sheetName}`)
+    writeFile(wb, `${sheetName.replace(/\//g, "-")} Report.xlsx`)
+  }
 
   const DropDownComponent = () => {
     return (
@@ -84,9 +89,9 @@ export function DataTable<TData, TValue>({
   const BottomTableComponent = () => {
     return (
       <div className="flex items-center justify-between">
-        <p><b>Total Data</b> : {table.getFilteredRowModel().rows.length}</p>
-        <p><b>Total Entry</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
-        <p><b>Total Exit</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p>
+        <p><b>Total Data</b> : {dataTransaction.length}</p>
+        <p><b>Total Entry</b> : {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
+        <p><b>Total Exit</b> : {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p>
         <div className="space-x-2 py-4">
           <Button
             size="sm"
