@@ -1,7 +1,7 @@
 import { IHandleFileUpload } from '@/interface'
 import { useRef, useState } from 'react'
 import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet'
-import { handleDragEnter, handleDragLeave, handleDragOver } from '@/utils/DragAndDrop'
+import { handleDragOver } from '@/utils/DragAndDrop'
 import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
 import { toast } from 'react-toastify'
@@ -33,6 +33,18 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
 
     handleFileUpload(file)
   }
+
+  const handleDragEnter = (e:React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  };
+
+  const handleDragLeave = (e:React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+  };
 
   const handleOpenFileDialog = () => {
     const input = document.createElement('input')
