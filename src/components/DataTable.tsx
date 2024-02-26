@@ -1,25 +1,37 @@
 import { ColumnFiltersState, VisibilityState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
-import { DataTableProps } from "@/interface"
-import { useState } from "react"
+import { DataTableProps} from "@/interface"
+import { useRef, useState } from "react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuContent } from "./ui/dropdown-menu"
 import { filterOptions } from "./options"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import "jspdf-autotable"
+import { utils, writeFile } from "xlsx"
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  data, 
 }: DataTableProps<TData, TValue>) {
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedValues, setSelectedValues] = useState<string>("")
+  const tableComponent = useRef<HTMLTableElement>(null)
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues("")
     const selectedOption = event.target.value;
     setSelectedValues(selectedOption);
+  }
+
+  const handleXLSImport = () => {
+    const datas = data?.length ? table.getFilteredRowModel().rows.map(row => row.original) : []
+    const ws = utils.json_to_sheet(datas)
+    const wb = utils.book_new()
+    utils.book_append_sheet(wb, ws, `Sheet1`)
+    writeFile(wb, `${table.getColumn(selectedValues.toString().replace(/\//g, "-"))?.getFilterValue() as string} Report.xlsx`)
+    console.log(`${table.getColumn(selectedValues.toString())?.getFilterValue() as string}-Sheet`)
   }
 
   const table = useReactTable({
@@ -35,7 +47,7 @@ export function DataTable<TData, TValue>({
       columnFilters
     }
   });
-  
+
   const DropDownComponent = () => {
     return (
       <DropdownMenu>
@@ -76,6 +88,13 @@ export function DataTable<TData, TValue>({
         <p><b>Total Entry</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
         <p><b>Total Exit</b> : {table.getFilteredRowModel().rows.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p>
         <div className="space-x-2 py-4">
+          <Button
+            size="sm"
+            onClick={handleXLSImport}
+            className="bg-slate-900 text-white hover:bg-lime-400"
+          >
+            Import to XLSX
+          </Button>
           <Button
             size="sm"
             onClick={() => table.previousPage()}
@@ -120,7 +139,7 @@ export function DataTable<TData, TValue>({
         <DropDownComponent/>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table ref={tableComponent}>
           <TableHeader className="bg-slate-900 text-white">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

@@ -24,4 +24,4 @@ git subtree push --prefix dist origin gh-pages
 
 echo 'Thank you for updating your loved page'
 
-read
+read -p "Press any key to exit"
