@@ -1,7 +1,7 @@
 import { ColumnFiltersState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
 import { IDataTableProps} from "@/interface"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { filterOptions } from "../utils/options"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
@@ -51,22 +51,6 @@ export function DataTable<TData, TValue>({
       toast.info("Tidak ada data yang bisa diimport")
     }
   }
-
-  useEffect(() => {
-    const server = localStorage.getItem('server');
-    const user = localStorage.getItem('user');
-    const password = localStorage.getItem('password');
-    const port = localStorage.getItem('port');
-    const database = localStorage.getItem('database');
-
-    if(server && user && password && port && database){
-      toast.success("Koneksi berhasil dimuat")
-    } else if (server === "" || user === "" || password === "" || port === "" || database === ""){
-      toast.info("Ada bagian koneksi yang kosong")
-    } else {
-      toast.info("Koneksi belum dikonfigurasi")
-    }
-  }, [])
 
   const BottomTableComponent = () => {
     return (

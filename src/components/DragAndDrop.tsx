@@ -5,7 +5,6 @@ import { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleOpe
 import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
 import 'react-toastify/dist/ReactToastify.css'
-import ModalConnection from './ModalConnection'
 
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
@@ -15,7 +14,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
     <div className='flex justify-between'>
       <Sheet>
         <SheetTrigger asChild>
-          <Button className='my-2 hover:bg-white hover:text-slate-900 duration-300 gap-2'>Upload File <FileIcon className='w-4 h-4'/></Button>
+          <Button className='my-2 mx-5 hover:bg-white hover:text-slate-900 duration-300 gap-2'>Upload File <FileIcon className='w-4 h-4'/></Button>
         </SheetTrigger>
         <SheetContent className='bg-white'>
           <SheetHeader>
@@ -33,15 +32,13 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
         >
               <div className="drag-and-drop-content rounded-md border-dashed border-2 border-white h-full">
                 <div className='flex flex-col justify-center items-center h-full px-2'>
-                  <p>Drag and drop or <span onClick={() => handleOpenFileDialog(dropZoneRef, handleFileUpload)} className='underline cursor-pointer hover:text-white duration-300'>upload</span> file here</p>
-                  <p>Only Excel/CSV files are supported</p>
+                  <p>Silahkan seret atau <span onClick={() => handleOpenFileDialog(dropZoneRef, handleFileUpload)} className='underline cursor-pointer hover:text-white duration-300'>upload</span> file transaksi disini</p>
                 </div>
               </div>
             </div>
           </div>  
         </SheetContent>
       </Sheet>
-      <ModalConnection/>
     </div>
    
   )
