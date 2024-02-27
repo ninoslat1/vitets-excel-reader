@@ -1,78 +1,15 @@
 import { IHandleFileUpload } from '@/interface'
 import { useRef, useState } from 'react'
 import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet'
-import { handleDragOver } from '@/utils/DragAndDrop'
+import { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleOpenFileDialog } from '@/utils/DragAndDrop'
 import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
-import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const dropZoneRef = useRef<HTMLDivElement>(null)
    
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(false)
-    const file = e.dataTransfer.files[0]
-
-    if (
-      file.type !== 'application/vnd.ms-excel' &&
-      file.type !== 'text/csv' &&
-      file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ) {
-      dropZoneRef.current?.classList.add('bg-red-500')
-
-      setTimeout(() => {
-        dropZoneRef.current?.classList.remove('bg-red-500')
-      }, 1000)
-      toast.error('Only Excel/CSV files are supported.')
-      return
-    }
-
-    handleFileUpload(file)
-  }
-
-  const handleDragEnter = (e:React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(true)
-  };
-
-  const handleDragLeave = (e:React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(false)
-  };
-
-  const handleOpenFileDialog = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = '.xls,.xlsx,.csv'
-    input.onchange = (event: Event) => {
-      const target = event.target as HTMLInputElement
-      const file = target.files?.[0]
-      if (file) {
-        if (
-          file.type !== 'application/vnd.ms-excel' &&
-          file.type !== 'text/csv' &&
-          file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ) {
-          dropZoneRef.current?.classList.add('bg-red-500')
-
-          setTimeout(() => {
-            dropZoneRef.current?.classList.remove('bg-red-500')
-          }, 1000)
-          toast.error('Only Excel/CSV files are supported.')
-          return
-        }
-        handleFileUpload(file)
-      }
-    }
-    input.click()
-  }
-
   return (
     <div>
       <Sheet>
@@ -88,14 +25,14 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
             <div
             ref={dropZoneRef}
           className={`drag-and-drop ${isDragging ? 'dragging' : ''} bg-blue-500 font-bold text-sky-100 p-1 rounded-md text-center mx-auto h-64`}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
+          onDragEnter={handleDragEnter(setIsDragging)}
+          onDragLeave={handleDragLeave(setIsDragging)}
           onDragOver={handleDragOver}
-          onDrop={handleDrop}
+          onDrop={(e) => handleDrop(e, dropZoneRef, handleFileUpload)}
         >
               <div className="drag-and-drop-content rounded-md border-dashed border-2 border-white h-full">
                 <div className='flex flex-col justify-center items-center h-full px-2'>
-                  <p>Drag and drop or <span onClick={handleOpenFileDialog} className='underline cursor-pointer hover:text-white duration-300'>upload</span> file here</p>
+                  <p>Drag and drop or <span onClick={() => handleOpenFileDialog(dropZoneRef, handleFileUpload)} className='underline cursor-pointer hover:text-white duration-300'>upload</span> file here</p>
                   <p>Only Excel/CSV files are supported</p>
                 </div>
               </div>

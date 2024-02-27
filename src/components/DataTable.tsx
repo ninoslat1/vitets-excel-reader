@@ -1,9 +1,8 @@
-import { ColumnFiltersState, VisibilityState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
+import { ColumnFiltersState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
 import { DataTableProps} from "@/interface"
 import { useRef, useState } from "react"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuContent } from "./ui/dropdown-menu"
-import { filterOptions } from "./options"
+import { filterOptions } from "../utils/options"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import "jspdf-autotable"
@@ -14,7 +13,6 @@ export function DataTable<TData, TValue>({
   data, 
 }: DataTableProps<TData, TValue>) {
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedValues, setSelectedValues] = useState<string>("")
   const tableComponent = useRef<HTMLTableElement>(null)
@@ -25,17 +23,14 @@ export function DataTable<TData, TValue>({
     setSelectedValues(selectedOption);
   }
   
-  
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-      columnVisibility,
       columnFilters
     }
   })
@@ -51,39 +46,6 @@ export function DataTable<TData, TValue>({
     const sheetName = `${statusFilterValue.replace(/\//g, "-")}-${dateFilterValue.replace(/\//g, "-")}-Sheet`;
     utils.book_append_sheet(wb, ws, `${sheetName}`)
     writeFile(wb, `${sheetName.replace(/\//g, "-")} Report.xlsx`)
-  }
-
-  const DropDownComponent = () => {
-    return (
-      <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="ml-auto hover:bg-white hover:text-slate-900 duration-300">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-    )
   }
 
   const BottomTableComponent = () => {
@@ -139,9 +101,8 @@ export function DataTable<TData, TValue>({
           placeholder={`Filter ${selectedValues}`}
           className="max-w-sm placeholder:capitalize"
           value={(table.getColumn(selectedValues.toString())?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(selectedValues.toString())?.setFilterValue(event.target.value)}
+          onChange={(e) => table.getColumn(selectedValues.toString())?.setFilterValue(e.target.value)}
         />
-        <DropDownComponent/>
       </div>
       <div className="rounded-md border">
         <Table ref={tableComponent}>

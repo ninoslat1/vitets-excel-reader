@@ -30,9 +30,6 @@ export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: 'status',
         header: 'Transaction',
-        meta: {
-            
-        }
     },
     {
         accessorKey: 'company',

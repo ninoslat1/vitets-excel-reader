@@ -11,14 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [tableData, setTableData] = useState<TTransaction[]>([])
 
-  const handleUpload = (file: File) => {
-    handleFileUpload(file, setTableData)
-  };
-
   return (
     <div className='px-5'>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={true} newestOnTop={true}/>
-      <DragAndDrop handleFileUpload={handleUpload} />
+      <DragAndDrop handleFileUpload={(file: File) => handleFileUpload(file,setTableData)} />
       <DataTable columns={columns} data={tableData} />
     </div>
   );
