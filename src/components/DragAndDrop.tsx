@@ -1,17 +1,18 @@
 import { IHandleFileUpload } from '@/interface'
 import { useRef, useState } from 'react'
 import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet'
-import { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleOpenFileDialog } from '@/utils/DragAndDrop'
+import { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleOpenFileDialog } from '@/utils/HandleDragAndDrop'
 import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
 import 'react-toastify/dist/ReactToastify.css'
+import ModalConnection from './ModalConnection'
 
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const dropZoneRef = useRef<HTMLDivElement>(null)
    
   return (
-    <div>
+    <div className='flex justify-between'>
       <Sheet>
         <SheetTrigger asChild>
           <Button className='my-2 hover:bg-white hover:text-slate-900 duration-300 gap-2'>Upload File <FileIcon className='w-4 h-4'/></Button>
@@ -40,6 +41,7 @@ export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
           </div>  
         </SheetContent>
       </Sheet>
+      <ModalConnection/>
     </div>
    
   )

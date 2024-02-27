@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 
-export interface DataTableProps<TData, TValue> {
+export interface IDataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
   }
@@ -8,3 +8,5 @@ export interface DataTableProps<TData, TValue> {
 export interface IHandleFileUpload {
   handleFileUpload : (file: File) => void
 }
+
+

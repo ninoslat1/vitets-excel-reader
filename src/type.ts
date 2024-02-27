@@ -9,3 +9,11 @@ export type TTransaction = {
     company: string,
     vehicleno: string
 }
+
+export type IConnectionForm = {
+    server: string
+    user: string
+    password: string
+    port: string
+    database: string
+  }
