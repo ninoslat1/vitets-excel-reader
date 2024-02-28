@@ -42,11 +42,9 @@ export function DataTable<TData, TValue>({
     if(data?.length !== 0){
       const ws = utils.json_to_sheet(dataTransaction.map(row => row.original))
       const wb = utils.book_new()
-      const statusFilterValue = table.getColumn("status")?.getFilterValue() as string;
-      const dateFilterValue = table.getColumn("datetime")?.getFilterValue() as string;
-      const sheetName = `${statusFilterValue.replace(/\//g, "-")}-${dateFilterValue.replace(/\//g, "-")}-Sheet`;
+      const sheetName = `Sheet1`;
       utils.book_append_sheet(wb, ws, `${sheetName}`)
-      writeFile(wb, `${sheetName.replace(/\//g, "-")} Report.xlsx`)
+      writeFile(wb, `${sheetName} Report.xlsx`)
     } else {
       toast.info("Tidak ada data yang bisa diimport")
     }
