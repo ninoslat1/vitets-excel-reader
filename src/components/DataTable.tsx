@@ -18,12 +18,14 @@ export function DataTable<TData, TValue>({
   const [selectedValues, setSelectedValues] = useState<string>("")
   const tableComponent = useRef<HTMLTableElement>(null)
 
+  // Dekalrasikan fungsi untuk menangani filter select
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues("")
     const selectedOption = event.target.value;
     setSelectedValues(selectedOption);
   }
   
+  // Dekalarsikan variabel tabel untuk Tanstack Table
   const table = useReactTable({
     data,
     columns,
@@ -36,20 +38,22 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  // Dekalarasikan variabel data baris transaksi yang telah disortir
   const dataTransaction = table.getFilteredRowModel().rows
 
+  // Deklarasikan fungsi untuk menangani impor file Excel
   const handleXLSImport = () => {
     if(data?.length !== 0){
-      const ws = utils.json_to_sheet(dataTransaction.map(row => row.original))
-      const wb = utils.book_new()
-      const sheetName = `Sheet1`;
-      utils.book_append_sheet(wb, ws, `${sheetName}`)
-      writeFile(wb, `${sheetName} Report.xlsx`)
+      // Jika panjang data tidak sama dengan nol, maka  buat file reportnya
+      utils.book_append_sheet(utils.book_new(), utils.json_to_sheet(dataTransaction.map(row => row.original)), `Sheet1`)
+      writeFile(utils.book_new(), `Sheet1-Report.xlsx`)
     } else {
+      // Jika panjang data nol, buat alert
       toast.info("Tidak ada data yang bisa diimport")
     }
   }
 
+  // Deklarasikan komponen bagian bawah tabel
   const BottomTableComponent = () => {
     return (
       <div className="block md:flex items-center justify-between text-xs md:text-base">
@@ -93,6 +97,7 @@ export function DataTable<TData, TValue>({
         <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
         <optgroup label="Filter List">
           <option value={''}>--Pilih Filter--</option>
+          {/* Pemetaan opsi filter yang ada pada option.ts*/}
           {filterOptions.map((option) => (
             <option key={option.id} value={option.value}>{option.label}</option>
           ))}
@@ -134,6 +139,7 @@ export function DataTable<TData, TValue>({
                   className="odd:bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
+                    // Styling className jika suatu sel pada tabel mengandung nilai Valid Entry atau Valid Exit
                     <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500 font-bold text-center" : ""}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

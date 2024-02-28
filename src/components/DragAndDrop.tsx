@@ -6,6 +6,8 @@ import { Button } from './ui/button'
 import { FileIcon } from '@radix-ui/react-icons'
 import 'react-toastify/dist/ReactToastify.css'
 
+
+// Dekalrasikan fungsi untuk mengatur fungsi drag and drop pada zona drag and drop
 export const DragAndDrop = ({ handleFileUpload }: IHandleFileUpload) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const dropZoneRef = useRef<HTMLDivElement>(null)

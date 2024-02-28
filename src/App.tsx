@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+  // Deklarasikan state untuk tabel data Tanstack Table mengikuti tipe TTransaction
   const [tableData, setTableData] = useState<TTransaction[]>([])
 
   return (

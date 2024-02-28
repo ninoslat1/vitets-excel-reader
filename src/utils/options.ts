@@ -1,3 +1,4 @@
+// Deklarasikan fungsi sebagai opsi filter pada komponen select
 export const filterOptions:{id: number, label: string, value: string}[] = [
     { id:1, label: "DateTime", value: "datetime"},
     { id:2, label: "Site", value: "site"},
