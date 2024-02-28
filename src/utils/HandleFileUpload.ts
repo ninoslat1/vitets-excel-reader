@@ -30,7 +30,7 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
   
         if (cardNo !== previousCardNo) {
           mappedData.push({
-            datetime: new Intl.DateTimeFormat('en-US').format(new Date(Date.UTC(1899, 11, parseFloat(row[0]) - 1))),
+            datetime: new Intl.DateTimeFormat('en-US').format(new Date(Date.UTC(1899, 12, parseFloat(row[0]) - 1))),
             site: row[1],
             controller,
             cardno: cardNo,
@@ -42,7 +42,7 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
           })
         } else if (cardNo === previousCardNo && controller !== previousController) {
           mappedData.push({
-            datetime: new Intl.DateTimeFormat('en-US').format(new Date(Date.UTC(1899, 11, parseFloat(row[0]) - 1))),
+            datetime: new Intl.DateTimeFormat('en-US').format(new Date(Date.UTC(1899, 12, parseFloat(row[0]) - 1))),
             site: row[1],
             controller,
             cardno: cardNo,
