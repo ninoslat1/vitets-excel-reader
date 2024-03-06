@@ -1,13 +1,11 @@
-import { ColumnFiltersState, flexRender,  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
+import { ColumnFiltersState, flexRender,  getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
 import { IDataTableProps} from "@/interface"
-import { useRef, useState } from "react"
+import { ChangeEvent, useRef, useState } from "react"
 import { filterOptions } from "../utils/options"
-import { Button } from "./ui/button"
 import { Input } from "./ui/input"
-import { utils, writeFile } from "xlsx"
-import { ArrowLeftIcon, ArrowRightIcon, FilePlusIcon } from "@radix-ui/react-icons"
-import { toast } from "react-toastify"
+import { BottomTable } from "./BottomTable"
+import { handleSelectChange } from "@/utils/HandleFilterSelect"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -17,13 +15,6 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedValues, setSelectedValues] = useState<string>("")
   const tableComponent = useRef<HTMLTableElement>(null)
-
-  // Dekalrasikan fungsi untuk menangani filter select
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValues("")
-    const selectedOption = event.target.value;
-    setSelectedValues(selectedOption);
-  }
   
   // Dekalarsikan variabel tabel untuk Tanstack Table
   const table = useReactTable({
@@ -33,6 +24,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
       columnFilters
     }
@@ -41,60 +33,17 @@ export function DataTable<TData, TValue>({
   // Dekalarasikan variabel data baris transaksi yang telah disortir
   const dataTransaction = table.getFilteredRowModel().rows
 
-  // Deklarasikan fungsi untuk menangani impor file Excel
-  const handleXLSImport = () => {
-    if(data?.length !== 0){
-      // Jika panjang data tidak sama dengan nol, maka  buat file reportnya
-      utils.book_append_sheet(utils.book_new(), utils.json_to_sheet(dataTransaction.map(row => row.original)), `Sheet1`)
-      writeFile(utils.book_new(), `Sheet1-Report.xlsx`)
-    } else {
-      // Jika panjang data nol, buat alert
-      toast.info("Tidak ada data yang bisa diimport")
-    }
-  }
-
-  // Deklarasikan komponen bagian bawah tabel
-  const BottomTableComponent = () => {
-    return (
-      <div className="block md:flex items-center justify-between text-xs md:text-base">
-        <div className="flex justify-between md:gap-8 p-2.5">
-          <p><b>Data</b>: {dataTransaction.length}</p>
-          <p><b>Entry</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
-          <p><b>Exit</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p>
-        </div>
-        <div className="flex justify-between md:gap-8 p-2.5">
-          <Button
-            size="sm"
-            onClick={handleXLSImport}
-            className="bg-slate-900 text-white hover:bg-green-800 text-xs md:text-base items-center"
-          >
-            Import to XLSX <FilePlusIcon className="h-2 w-2 md:h-4 md:w-4 mx-2"/>
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="bg-slate-900 text-white text-xs md:text-base items-center"
-          >
-            <ArrowLeftIcon className="h-2 w-2 md:h-4 md:w-4 mx-2"/> Previous
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="bg-slate-900 text-white text-xs md:text-base items-center"
-          >
-            Next <ArrowRightIcon className="h-2 w-2 md:h-4 md:w-4 mx-2"/>
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const dataset: any = table.getAllColumns().map((column: any) => column.getFacetedUniqueValues())[2];
+  const datasetArray = Array.from(dataset);
+  
+  const names = datasetArray.map((item: any) => item[0]);
+  
+  console.log(names);
 
   return (
     <div>
       <div className="flex items-center py-4">
-        <select value={selectedValues} onChange={handleSelectChange} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
+        <select value={selectedValues} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectChange(e, setSelectedValues)} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
         <optgroup label="Filter List">
           <option value={''}>--Pilih Filter--</option>
           {/* Pemetaan opsi filter yang ada pada option.ts*/}
@@ -156,7 +105,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <BottomTableComponent/>
+      <BottomTable data={data} dataTransaction={dataTransaction} table={table}/>
       </div>
   )
 }

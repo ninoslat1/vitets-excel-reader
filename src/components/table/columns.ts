@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table"
 export const columns: ColumnDef<TTransaction>[] = [
     {
         accessorKey: "datetime",
-        header: "DateTime",
+        header: "Tanggal",
     },
     {
         accessorKey: "site",
@@ -13,30 +13,30 @@ export const columns: ColumnDef<TTransaction>[] = [
     },
     {
         accessorKey: 'controller',
-        header: "Controller"
+        header: "Nama Gerbang"
     },
     {
         accessorKey: 'cardno',
-        header: 'Card No',
+        header: 'Nomor Kartu',
     },
     {
         accessorKey: 'staffno',
-        header: 'Staff No'
+        header: 'Nomor Staff'
     },
     {
         accessorKey: 'name',
-        header: 'Name',
+        header: 'Nama Kartu',
     },
     {
         accessorKey: 'status',
-        header: 'Transaction',
+        header: 'Status Transaksi',
     },
     {
         accessorKey: 'company',
-        header: 'Company'
+        header: 'Perusahaan'
     },
     {
         accessorKey: 'vehicleno',
-        header: 'Vehicle No'
+        header: 'Nomor Kendaraan'
     }
   ] 
