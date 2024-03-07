@@ -11,3 +11,13 @@ export type TTransaction = {
     company: string,
     vehicleno: string
 }
+
+export type DailyTransaction = {
+    controller: string
+    stars: number
+}
+
+export type TSeries = {
+    label: string
+    data: DailyTransaction[]
+}
