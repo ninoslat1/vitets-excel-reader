@@ -2,7 +2,7 @@ import { Button } from "./ui/button"
 import { ArrowLeftIcon, ArrowRightIcon, FilePlusIcon } from "@radix-ui/react-icons"
 import { handleXLSImport } from "@/utils/HandleImport"
 import { IBottomTable } from "@/interface"
-import Insight from "./Insight";
+import {Insight} from "./Insight";
 
 // Deklarasikan komponen bagian bawah tabel
 export function BottomTable<TData>({data, dataTransaction, table}:IBottomTable<TData>){
@@ -12,7 +12,7 @@ export function BottomTable<TData>({data, dataTransaction, table}:IBottomTable<T
           {/* <p><b>Data</b>: {dataTransaction.length}</p>
           <p><b>Entry</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
           <p><b>Exit</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p> */}
-          <Insight/>
+          <Insight dataTransaction={dataTransaction} table={table}/>
         </div>
         <div className="flex justify-between md:gap-8 p-2.5">
           <Button

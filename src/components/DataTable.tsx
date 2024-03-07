@@ -33,13 +33,6 @@ export function DataTable<TData, TValue>({
   // Dekalarasikan variabel data baris transaksi yang telah disortir
   const dataTransaction = table.getFilteredRowModel().rows
 
-  const dataset: any = table.getAllColumns().map((column: any) => column.getFacetedUniqueValues())[2];
-  const datasetArray = Array.from(dataset);
-  
-  const names = datasetArray.map((item: any) => item[0]);
-  
-  console.log(names);
-
   return (
     <div>
       <div className="flex items-center py-4">
