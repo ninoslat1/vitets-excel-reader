@@ -50,10 +50,19 @@ export function Insight<TData>({dataTransaction, table}:Partial<IBottomTable<TDa
             <DialogContent className="w-full bg-white">
                 <DialogHeader>
                 <DialogTitle className="text-lg text-center">Statistik Transaksi Masuk/Keluar</DialogTitle>
-                <p className="text-xs text-justify">Berikut ini adalah statistik dari jumlah transaksi masuk dan keluar (nilai bisa berubah mengikuti filter tanggal pada tabel)</p>
+                <p className="text-xs text-justify">Berikut ini adalah statistik dari jumlah transaksi masuk dan keluar (nilai bisa berubah mengikuti filter pada tabel)</p>
                 </DialogHeader>
                 <div>
                     <div className="flex justify-between">
+                    <div className="flex items-center">
+                            <div className="bg-sky-500 p-1 m-2 rounded-lg">
+                                <EnterIcon className="h-4 w-4 m-1 text-white"/>
+                            </div>
+                            <div className="block text-xs">
+                                <p className="font-bold">Valid Transaction</p>
+                                <p>{dataTransaction?.filter(cell => cell.getValue("status") === 'Valid Entry Access' || cell.getValue("status") === 'Valid Exit Access').length}</p>
+                            </div>
+                        </div>
                         <div className="flex items-center">
                             <div className="bg-green-500 p-1 m-2 rounded-lg">
                                 <EnterIcon className="h-4 w-4 m-1 text-white"/>
