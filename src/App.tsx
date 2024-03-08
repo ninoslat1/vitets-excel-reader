@@ -3,7 +3,7 @@ import { DataTable } from './components/DataTable';
 import { DragAndDrop } from './components/DragAndDrop';
 import { columns } from './components/table/columns';
 import './index.css';
-import { TTransaction } from './type';
+import { TTransaction } from './lib/type';
 import { handleFileUpload } from './utils/HandleFileUpload';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

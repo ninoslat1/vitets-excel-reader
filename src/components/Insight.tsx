@@ -1,4 +1,4 @@
-import { IBottomTable } from "@/interface"
+import { IBottomTable } from "@/lib/interface"
 import { Button } from "./ui/button"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { CheckIcon, EnterIcon, ExitIcon } from "@radix-ui/react-icons"

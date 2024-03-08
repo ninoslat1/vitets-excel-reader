@@ -1,4 +1,4 @@
-import { IHandleFileUpload } from '@/interface'
+import { IHandleFileUpload } from '@/lib/interface'
 import { useRef, useState } from 'react'
 import { SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, Sheet } from './ui/sheet'
 import { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleOpenFileDialog } from '@/utils/HandleDragAndDrop'

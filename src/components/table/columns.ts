@@ -1,4 +1,4 @@
-import { TTransaction } from "@/type"
+import { TTransaction } from "@/lib/type"
 import { ColumnDef } from "@tanstack/react-table"
 
 // Deklarasikan variabel column untuk mendefinisikan kepala kolom dari Tanstack Table

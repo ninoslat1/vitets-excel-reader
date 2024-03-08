@@ -1,6 +1,6 @@
 import { ColumnFiltersState, flexRender,  getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, useReactTable} from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
-import { IDataTableProps} from "@/interface"
+import { IDataTableProps} from "@/lib/interface"
 import { ChangeEvent, useRef, useState } from "react"
 import { filterOptions } from "../utils/options"
 import { Input } from "./ui/input"
@@ -40,7 +40,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className={`flex items-center py-4 ${table.getRowModel().rows?.length > 0 ? "" : "invisible"} `}>
+      <div className={`flex items-center py-4 ${data?.length > 0 ? "" : "invisible"} `}>
         <select value={selectedValues} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectChange(e, setSelectedValues)} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
         <optgroup label="Filter List">
           <option value={''}>--Pilih Filter--</option>
@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     // Styling className jika suatu sel pada tabel mengandung nilai Valid Entry atau Valid Exit
-                    <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500 font-bold text-center" : ""}>
+                    <TableCell key={cell.id} className={cell.getValue() === "Valid Entry Access" || cell.getValue() === "Valid Exit Access" ? "text-green-500 font-bold text-center" : cell.getValue() === "Card Expired" ? "text-red-500 font-bold text-center" : ""}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

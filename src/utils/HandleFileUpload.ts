@@ -1,4 +1,4 @@
-import { TTransaction } from "@/type"
+import { TTransaction } from "@/lib/type"
 import { read, utils } from "xlsx"
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
