@@ -7,7 +7,7 @@ export type TTransaction = {
     cardno: string
     staffno: string
     name: string
-    status: "Valid Entry Access" | "Valid Exit Access"
+    status: "Valid Entry Access" | "Valid Exit Access" | "Card Expired"
     company: string,
     vehicleno: string
 }

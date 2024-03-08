@@ -34,10 +34,10 @@ export const handleFileUpload = (file: File, setTableData: (data: TTransaction[]
         const row = jsonData[i]
         const cardNo = row[3]
         const controller = row[2]
-        const status: "Valid Entry Access" | "Valid Exit Access" =
-          row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
-            ? row[6]
-            : "Valid Entry Access"
+        const status: "Valid Entry Access" | "Valid Exit Access" | "Card Expired" =
+        row[6] === "Valid Entry Access" || row[6] === "Valid Exit Access"
+          ? row[6]
+          : "Card Expired";
         
         // Jika nomor kartu sesudahnya tidak sama dengan nomor kartu sebelumnya, simpan data ke pemetaan data
         if (cardNo !== previousCardNo) {

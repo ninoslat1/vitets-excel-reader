@@ -40,7 +40,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className={`flex items-center py-4 ${table.getRowModel().rows?.length ? "" : "invisible"} `}>
+      <div className={`flex items-center py-4 ${table.getRowModel().rows?.length > 0 ? "" : "invisible"} `}>
         <select value={selectedValues} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectChange(e, setSelectedValues)} className="p-2.5 bg-slate-900 rounded-lg text-white mx-5 hover:bg-white hover:text-slate-900 hover:cursor-pointer">
         <optgroup label="Filter List">
           <option value={''}>--Pilih Filter--</option>
