@@ -15,4 +15,5 @@ Aplikasi sortir transaksi harian berbasis web menggunakan
 * Fitur _Upload_ secara _Drag n Drop_ ataupun memilih file, dan validasi file
 * Fitur filter secara _multi filter_
 * Fitur ekspor data tabel ke format Excel
+* Fitur statistik data transaksi yang dinamis mengikuti filter
 
