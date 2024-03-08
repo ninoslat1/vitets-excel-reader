@@ -9,9 +9,6 @@ export function BottomTable<TData>({data, dataTransaction, table}:IBottomTable<T
     return (
       <div className="block md:flex items-center justify-between text-xs md:text-base">
         <div className="flex justify-between md:gap-8 p-2.5">
-          {/* <p><b>Data</b>: {dataTransaction.length}</p>
-          <p><b>Entry</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Entry Access').length}</p>
-          <p><b>Exit</b>: {dataTransaction.filter(cell => cell.getValue("status") === 'Valid Exit Access').length}</p> */}
           <Insight dataTransaction={dataTransaction} table={table}/>
         </div>
         <div className="flex justify-between md:gap-8 p-2.5">

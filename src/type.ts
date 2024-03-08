@@ -14,7 +14,7 @@ export type TTransaction = {
 
 export type DailyTransaction = {
     controller: string
-    stars: number
+    count: number | undefined
 }
 
 export type TSeries = {
