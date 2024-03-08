@@ -2,44 +2,14 @@ import { IBottomTable } from "@/interface"
 import { Button } from "./ui/button"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { CheckIcon, EnterIcon, ExitIcon } from "@radix-ui/react-icons"
-import { Chart, AxisOptions } from 'react-charts'
-import { useMemo } from "react"
-import { DailyTransaction, TSeries } from "@/type"
+import { Chart } from 'react-charts'
+import { handleChart } from "@/utils/HandleChart"
 
 
 export function Insight<TData>({dataTransaction, table}:Partial<IBottomTable<TData>>) {
-    const names = Array.from(table?.getAllColumns()?.map((column: any) => column.getFacetedUniqueValues())[2]).map((item: any) => item[0]);
 
-    const data: TSeries[] = [
-    {
-        label: 'Data Statistik Gerbang',
-        data: [],
-    },
-    ];
-
-    names.forEach((name) => {
-    const controllerCount: number | undefined = dataTransaction?.filter(cell => cell.getValue("controller") === name).length;
-    data[0].data.push({
-        controller: name,
-        count: controllerCount,
-    });
-    });
-
-    const primaryAxis = useMemo(
-        (): AxisOptions<DailyTransaction> => ({
-          getValue: datum => datum.controller,
-        }),
-        []
-      )
-    
-      const secondaryAxes = useMemo(
-        (): AxisOptions<DailyTransaction>[] => [
-          {
-            getValue: datum => datum.count,
-          },
-        ],
-        []
-      )
+  // Mengambil data yang dibutuhkan untuk meng-generate chart
+  const { data, primaryAxis, secondaryAxes } = handleChart({table, dataTransaction});  
       
   return (
     <div>

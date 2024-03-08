@@ -8,14 +8,14 @@ import {Insight} from "./Insight";
 export function BottomTable<TData>({data, dataTransaction, table}:IBottomTable<TData>){
     return (
       <div className="block md:flex items-center justify-between text-xs md:text-base">
-        <div className="flex justify-between md:gap-8 p-2.5">
+        <div className={`flex justify-between md:gap-8 p-2.5 ${table.getRowModel().rows?.length ? "" : "invisible"}`}>
           <Insight dataTransaction={dataTransaction} table={table}/>
         </div>
         <div className="flex justify-between md:gap-8 p-2.5">
           <Button
             size="sm"
             onClick={() => handleXLSImport(data, dataTransaction)}
-            className="bg-slate-900 text-white hover:bg-green-800 text-xs md:text-base items-center"
+            className={`bg-slate-900 text-white hover:bg-green-800 text-xs md:text-base items-center ${table.getRowModel().rows?.length ? "" : "invisible"}`}
           >
             Impor ke Excel <FilePlusIcon className="h-2 w-2 md:h-4 md:w-4 mx-2"/>
           </Button>
